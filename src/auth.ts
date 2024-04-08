@@ -255,10 +255,10 @@ export const config = {
       const { pathname } = request.nextUrl
       if (pathname === "/middleware-example") return !!auth
       if (pathname === "/admin/dashboard") return !!auth
-      if (pathname === "/permissions") return !!auth
-      if (pathname === "/roles") return !!auth
-      if (pathname === "/users") return !!auth
-      if (pathname === "/profile") return !!auth
+      if (pathname === "/admin/permissions") return !!auth
+      if (pathname === "/admin/roles") return !!auth
+      if (pathname === "/admin/users") return !!auth
+      if (pathname === "/admin/profile") return !!auth
       return true
     },
     jwt({ token, trigger, session }) {

@@ -3,7 +3,7 @@ import React, {useState, useEffect, useCallback, useRef} from "react";
 import { useSession } from "next-auth/react"
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DataGrid, GridFilterModel, GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel } from '@mui/x-data-grid';
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
@@ -156,14 +156,14 @@ export default function Index() {
         reloadData(paginationModel.page, paginationModel.pageSize, sortModel, filterValue)
     }, [session])
 
-    const columns:any = [
-        { field: 'name', headerName: 'Name', flex: 1, minWidth: 150 },
-        { field: 'description', headerName: 'Description', flex: 1, minWidth: 200 },
+    const columns: GridColDef<(typeof roles)[number]>[] = [
+        { field: 'name', headerName: 'Name', flex: 1, minWidth: 150, display: 'flex'},
+        { field: 'description', headerName: 'Description', flex: 1, minWidth: 200, display: 'flex'},
         { field: 'role_permission',
           headerName: 'Permissions', 
           sortable: false,
           filterable: false,
-          display: 'inline',
+          display: 'flex',
           width: 450,
           renderCell: (params:any) => {
             return (

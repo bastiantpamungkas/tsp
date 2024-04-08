@@ -1,6 +1,7 @@
 "use client"
 import { useState, ReactNode, useEffect, createContext } from 'react';
 import { useSession } from "next-auth/react"
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
 type SidebarContext = {
   sidebarToggle: any;
@@ -79,6 +80,7 @@ export function SidebarProvider({ children }: Props) {
       value={{ sidebarToggle, toggleSidebar, closeSidebar, userData, setUserData }}
     >
       {children}
+      <ProgressBar />
     </SidebarContext.Provider>
   );
 }

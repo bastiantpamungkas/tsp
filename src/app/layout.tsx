@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react"
 import { Inter } from "next/font/google"
 import packageJSON from "next-auth/package.json"
 import CssBaseline from '@mui/material/CssBaseline';
+import { SidebarProvider } from '@/src/contexts/SidebarContext';
 import ThemeProvider from '@/src/theme/ThemeProvider';
 
 const inter = Inter({ subsets: ["latin"] })
@@ -22,10 +23,12 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
         {/* Layout UI */}
         <main>
           <SessionProvider basePath={config.basePath} session={session}>
-            <ThemeProvider>
-              <CssBaseline />
-              {children}
-            </ThemeProvider>
+            <SidebarProvider>
+              <ThemeProvider>
+                <CssBaseline />
+                {children}
+              </ThemeProvider>
+            </SidebarProvider>
           </SessionProvider>
         </main>
       </body>

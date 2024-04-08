@@ -6,6 +6,7 @@ import packageJSON from "next-auth/package.json"
 import CssBaseline from '@mui/material/CssBaseline';
 import { SidebarProvider } from '@/src/contexts/SidebarContext';
 import ThemeProvider from '@/src/theme/ThemeProvider';
+import { NavigationEvents } from '@/src/components/NavigationEvents'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,6 +31,7 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
               </ThemeProvider>
             </SidebarProvider>
           </SessionProvider>
+          <NavigationEvents />
         </main>
       </body>
     </html>

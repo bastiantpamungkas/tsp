@@ -46,18 +46,22 @@ export function SidebarProvider({ children }: Props) {
     setLoading(true)
     
     try {
-      let response = await fetch('/api/profile', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+      if (session) {
+        let response = await fetch('/api/profile', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        const data = await response.json()
+        if (data && data.error) {
+          _setUserData({...userData, id: '', name: '', email: '', image: ''})
+        } else {
+          _setUserData({...userData, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image})
         }
-      })
-      const data = await response.json()
-      if (data && data.error) {
-        _setUserData({...userData, id: '', name: '', email: '', image: ''})
       } else {
-        _setUserData({...userData, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image})
+        _setUserData({...userData, id: '', name: '', email: '', image: ''})
       }
     } catch(err) {
       console.log(err)
@@ -68,7 +72,7 @@ export function SidebarProvider({ children }: Props) {
 
   useEffect(() => {
     loadData()
-  }, [])
+  }, [session?.user])
 
   return (
     <SidebarContext.Provider

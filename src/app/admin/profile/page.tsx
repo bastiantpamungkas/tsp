@@ -1,11 +1,12 @@
 "use client"
 import {useState, useContext, useEffect} from "react";
 import { useSession, signOut } from "next-auth/react"
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import querystring from 'query-string'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton'
@@ -69,7 +70,8 @@ const ButtonUploadWrapper = styled(Box)(
 );
 
 export default function Index() {
-    const { userData, setUserData } = useContext(SidebarContext);
+    const { userData } = useContext(SidebarContext);
+    const { data: session, update } = useSession()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [openNotification, setOpenNotification] = useState(false);
@@ -127,7 +129,12 @@ export default function Index() {
                 }
               }, 3000);
             } else {
-              setUserData({...userData, id: data.id, name: data.name, email: data.email, image: data.image})
+              if (session) {
+                await update({
+                  ...session,
+                  user: { ...session.user, id: data.id, name: data.name, email: data.email, image: data.image },
+                })
+              }
               setLoading(false)
             }
           }
@@ -157,7 +164,12 @@ export default function Index() {
             setNotification(data.error,'error')
           } else {
             setNotification('Image has been updated','success')
-            setUserData({...userData, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image})
+            if (session) {
+              await update({
+                ...session,
+                user: { ...session.user, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image },
+              })
+            }
           }
         } catch(err) {
           console.log(err)
@@ -191,11 +203,9 @@ export default function Index() {
           })
           const data = await response.json()
           if (data && data.error) {
-            setValues({...values, name: '', email: '', image: '' ,password: '', password_confirm: ''})
             setNotification(data.error,'error')
             setWithPassword(true)
           } else {
-            setValues({...values, name: data.profile.name as string, email: data.profile.email, image: data.profile.image, password: '', password_confirm: ''})
             if (data.account) {
               setWithPassword(false)
             }
@@ -209,7 +219,11 @@ export default function Index() {
     }
 
     useEffect(() => {
-        loadData()
+      loadData
+    }, [])
+
+    useEffect(() => {
+      setValues({...values, name: userData.name, email: userData.email, image: userData.image, password: '', password_confirm: ''})
     }, [userData])
 
     return (

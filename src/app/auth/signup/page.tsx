@@ -1,7 +1,9 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useSession, signIn, getCsrfToken } from "next-auth/react"
-import { useRouter, useSearchParams } from 'next/navigation'
+// import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import NextLink from 'next/link';
 import Alert, { AlertColor } from '@mui/material/Alert';
 import Box from '@mui/material/Box';

@@ -1,7 +1,8 @@
 "use client"
 import {useState, useEffect} from "react";
 import { signOut } from "next-auth/react"
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types'
 import querystring from 'query-string'
 import Dialog from '@mui/material/Dialog'

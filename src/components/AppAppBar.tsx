@@ -1,7 +1,8 @@
 "use client"
 import { useState } from 'react';
 import { useSession } from "next-auth/react"
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import { signOut } from "next-auth/react"
 import NextLink from 'next/link';
 import Box from '@mui/material/Box';

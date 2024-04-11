@@ -73,7 +73,7 @@ export function SidebarProvider({ children }: Props) {
 
   useEffect(() => {
     loadData()
-  }, [session?.user])
+  }, [session])
 
   return (
     <SidebarContext.Provider

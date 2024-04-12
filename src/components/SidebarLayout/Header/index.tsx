@@ -16,8 +16,7 @@ import HeaderMenu from './Menu';
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-  // const { rtl } = useContext(ThemeContext);
-  const rtl = false
+  const { rtl } = useContext(ThemeContext);
   const HeaderWrapper = styled(Box)(
     ({ theme }) => `
           height: ${theme.header.height};

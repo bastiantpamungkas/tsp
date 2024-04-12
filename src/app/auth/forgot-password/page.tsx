@@ -5,6 +5,7 @@ import { useSession, signIn } from "next-auth/react"
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next-nprogress-bar';
 import NextLink from 'next/link';
+import { useTheme } from '@mui/material/styles';
 import Alert, { AlertColor } from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -22,6 +23,7 @@ import AppAppBar from '@/src/components/AppAppBar';
 import Footer from '@/src/components/Footer';
 
 export default function Index() {
+  const theme = useTheme();
   const router = useRouter()
   const searchParams = useSearchParams()
   const { data: session } = useSession()
@@ -77,7 +79,7 @@ export default function Index() {
     (!loadingTheme) &&
       <>
         <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: 'right' }}
+            anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
             open={openNotification}
             autoHideDuration={6000}
             onClose={() => setOpenNotification(false)}

@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel } from '@mui/x-data-grid';
+import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
@@ -26,6 +27,7 @@ import DeleteBulk from './delete-bulk'
 
 
 export default function Index() {
+    const theme = useTheme();
     const { data: session } = useSession()
     const [loading, setLoading] = useState(false)
     const [permissions, setPermissions] = useState([])
@@ -214,7 +216,7 @@ export default function Index() {
                 onClose={() => setOpenNotification(false)}
             >
                 <Snackbar
-                    anchorOrigin={{ vertical: "top", horizontal: 'right' }}
+                    anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
                     open={openNotification}
                     autoHideDuration={6000}
                     onClose={() => setOpenNotification(false)}

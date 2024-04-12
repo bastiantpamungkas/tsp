@@ -86,9 +86,9 @@ export default function Highlights() {
             precision in every detail.
           </Typography>
         </Box>
-        <Grid container spacing={2.5}>
+        <Grid container spacing={{ sm: 2.5 }}>
           {items.map((item, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} sm={6} md={4} key={index} sx={{ my:1 }}>
               <Stack
                 direction="column"
                 color="inherit"

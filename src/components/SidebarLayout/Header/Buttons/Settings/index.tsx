@@ -6,12 +6,13 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Switch from '@mui/material/Switch';
 
 import { useRef, useState } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 import { ThemeContext } from '@/src/theme/ThemeProvider'
 
@@ -68,17 +69,27 @@ function HeaderSettings() {
             </IconButton>
           </Tooltip>
         </Box>
-        {/* <Divider />
+        <Divider />
         <Box
           sx={{ p: 2 }}
           display="flex"
           justifyContent="space-between"
         >
-          <Typography variant="h5" sx={{ mt: 0.5 }}>RTL</Typography>
-          <Tooltip title="" >
-            <Switch checked={rtl} onChange={(setRtl)} />
+          <Typography variant="h5" sx={{ mt: 1 }}>{ rtl ? 'LTR' : 'RTL' }</Typography>
+          <Tooltip title={rtl ? 'LTR' : 'RTL'} >
+            <IconButton color="primary" onClick={(e) => {
+              e.preventDefault()
+              setRtl()
+            }}>
+              {
+                (rtl) ? 
+                  <ArrowCircleRightIcon/>
+                : 
+                  <ArrowCircleLeftIcon/>
+              }
+            </IconButton>
           </Tooltip>
-        </Box> */}
+        </Box>
       </Popover>
     </>
   );

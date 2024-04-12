@@ -2,6 +2,7 @@
 import {useState, useEffect} from "react";
 import PropTypes from 'prop-types'
 import querystring from 'query-string'
+import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
@@ -33,6 +34,7 @@ const MenuProps = {
 };
 
 export default function Edit(props:any) {
+    const theme = useTheme();
     const [loading, setLoading] = useState(false)
     const [roles, setRoles] = useState([])
     const [openNotification, setOpenNotification] = useState(false);
@@ -135,7 +137,7 @@ export default function Edit(props:any) {
             onClose={props.onModalClose}
         >
             <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: 'right' }}
+                anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
                 open={openNotification}
                 autoHideDuration={6000}
                 onClose={() => setOpenNotification(false)}

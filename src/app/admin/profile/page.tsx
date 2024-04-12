@@ -6,7 +6,7 @@ import { useRouter } from 'next-nprogress-bar';
 import querystring from 'query-string'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { styled } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton'
@@ -70,6 +70,7 @@ const ButtonUploadWrapper = styled(Box)(
 );
 
 export default function Index() {
+    const theme = useTheme();
     const { userData } = useContext(SidebarContext);
     const { data: session, update } = useSession()
     const router = useRouter()
@@ -234,7 +235,7 @@ export default function Index() {
                 onClose={() => setOpenNotification(false)}
             >
                 <Snackbar
-                    anchorOrigin={{ vertical: "top", horizontal: 'right' }}
+                    anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
                     open={openNotification}
                     autoHideDuration={6000}
                     onClose={() => setOpenNotification(false)}

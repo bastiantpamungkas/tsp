@@ -85,7 +85,7 @@ export default function Pricing() {
           customization.
         </Typography>
       </Box>
-      <Grid container spacing={3} alignItems="center" justifyContent="center">
+      <Grid container spacing={{sm: 3}} alignItems="center" justifyContent="center">
         {tiers.map((tier) => (
           <Grid
             item
@@ -93,6 +93,7 @@ export default function Pricing() {
             xs={12}
             sm={tier.title === 'Enterprise' ? 12 : 6}
             md={4}
+            sx={{ my: 1 }}
           >
             <Card
               sx={{

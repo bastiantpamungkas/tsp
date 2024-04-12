@@ -52,8 +52,8 @@ export default function Features() {
 
   return (
     <Container id="features" sx={{ py: { xs: 8, sm: 16 } }}>
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={6}>
+      <Grid container spacing={{ lg: 6 }}>
+        <Grid item xs={12} md={6} sx={{ my: 1 }}>
           <div>
             <Typography component="h2" variant="h4" color="text.primary">
               Product features
@@ -242,7 +242,7 @@ export default function Features() {
           item
           xs={12}
           md={6}
-          sx={{ display: { xs: 'none', sm: 'flex' }, width: '100%' }}
+          sx={{ display: { xs: 'none', sm: 'flex' }, width: '100%', my: 1 }}
         >
           <Card
             variant="outlined"

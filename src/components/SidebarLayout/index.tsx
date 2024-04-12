@@ -9,8 +9,7 @@ import Footer from '@/src/components/FooterAdmin';
 import { ThemeContext } from '@/src/theme/ThemeProvider'
 
 export default function SidebarLayout({ children }: React.PropsWithChildren) {
-  // const { rtl } = useContext(ThemeContext);
-  const rtl = false;
+  const { rtl } = useContext(ThemeContext);
   const theme = useTheme();
 
   return (

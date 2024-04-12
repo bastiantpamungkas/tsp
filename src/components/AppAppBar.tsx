@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useSession } from "next-auth/react"
 // import { useRouter } from 'next/navigation'
 import { useRouter } from 'next-nprogress-bar';
@@ -16,6 +16,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
+import ToggleRtlMode from './ToggleRtlMode';
+import { ThemeContext } from '@/src/theme/ThemeProvider'
 
 const logoStyle = {
   width: '140px',
@@ -24,6 +26,7 @@ const logoStyle = {
 };
 
 function AppAppBar() {
+  const { rtl } = useContext(ThemeContext);
   const router = useRouter()
   const [open, setOpen] = useState(false);
   const { data: session } = useSession()
@@ -155,6 +158,7 @@ function AppAppBar() {
                 mx: 2
               }}
             >
+              <ToggleRtlMode />
               <ToggleColorMode />
               
               <NextLink href={(session) ? '/admin/dashboard' : '/auth/signup'}>
@@ -189,7 +193,7 @@ function AppAppBar() {
               >
                 <MenuIcon />
               </Button>
-              <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+              <Drawer anchor={rtl ? 'left' : 'right'} open={open} onClose={toggleDrawer(false)}>
                 <Box
                   sx={{
                     minWidth: '60dvw',
@@ -206,6 +210,7 @@ function AppAppBar() {
                       flexGrow: 1,
                     }}
                   >
+                    <ToggleRtlMode />
                     <ToggleColorMode />
                   </Box>
                   <MenuItem onClick={() => scrollToSection('features')}>

@@ -1,3 +1,4 @@
+import { LineChart } from '@mui/x-charts/LineChart';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
@@ -6,8 +7,6 @@ import Typography from '@mui/material/Typography';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import Label from '@/src/components/Label';
 import Text from '@/src/components/Text';
-import { Chart } from '@/src/components/Chart';
-import type { ApexOptions } from 'apexcharts';
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -40,103 +39,19 @@ const AvatarWrapper = styled(Avatar)(
 function WatchListColumn() {
   const theme = useTheme();
 
-  const chartOptions: ApexOptions = {
-    chart: {
-      background: 'transparent',
-      toolbar: {
-        show: false
-      },
-      sparkline: {
-        enabled: true
-      },
-      zoom: {
-        enabled: false
-      }
-    },
-    fill: {
-      gradient: {
-        shade: 'light',
-        type: 'vertical',
-        shadeIntensity: 0.1,
-        inverseColors: false,
-        opacityFrom: 0.8,
-        opacityTo: 0,
-        stops: [0, 100]
-      }
-    },
-    colors: [theme.colors.primary.main],
-    dataLabels: {
-      enabled: false
-    },
-    theme: {
-      mode: theme.palette.mode
-    },
-    stroke: {
-      show: true,
-      colors: [theme.colors.primary.main],
-      width: 3
-    },
-    legend: {
-      show: false
-    },
-    labels: [
-      'Monday',
-      'Tueday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday'
-    ],
-    xaxis: {
-      labels: {
-        show: false
-      },
-      axisBorder: {
-        show: false
-      },
-      axisTicks: {
-        show: false
-      }
-    },
-    yaxis: {
-      show: false,
-      tickAmount: 5
-    },
-    tooltip: {
-      x: {
-        show: true
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return 'Price: $';
-          }
-        }
-      },
-      marker: {
-        show: false
-      }
-    }
-  };
-  const chart1Data = [
-    {
-      name: 'Bitcoin Price',
-      data: [55.701, 57.598, 48.607, 46.439, 58.755, 46.978, 58.16]
-    }
-  ];
-  const chart2Data = [
-    {
-      name: 'Ethereum Price',
-      data: [13, 16, 14, 20, 8, 11, 20]
-    }
-  ];
-  const chart3Data = [
-    {
-      name: 'Cardano Price',
-      data: [51.85, 41.77, 22.09, 42.0, 71.9, 51.84, 31.84]
-    }
-  ];
+  const chartLabel =  [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ]
+
+  const chart1Data = [55.701, 57.598, 48.607, 46.439, 58.755, 46.978, 58.16]
+  const chart2Data = [13, 16, 14, 20, 8, 11, 20]
+  const chart3Data = [51.85, 41.77, 22.09, 42.0, 71.9, 51.84, 31.84]
 
   return (
     <Grid
@@ -213,11 +128,15 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          {/* <Chart
-            options={chartOptions}
-            series={chart1Data}
-            type="area"
-            height={200}
+          {/* <LineChart
+            series={[
+              {
+                data: chart1Data,
+                area: true,
+              },
+            ]}
+            xAxis={[{ data: chartLabel, scaleType: 'point' }]}
+            height={250}
           /> */}
         </Card>
       </Grid>
@@ -288,11 +207,15 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          {/* <Chart
-            options={chartOptions}
-            series={chart2Data}
-            type="area"
-            height={200}
+          {/* <LineChart
+            series={[
+              {
+                data: chart2Data,
+                area: true,
+              },
+            ]}
+            xAxis={[{ data: chartLabel, scaleType: 'point' }]}
+            height={250}
           /> */}
         </Card>
       </Grid>
@@ -363,11 +286,15 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          {/* <Chart
-            options={chartOptions}
-            series={chart3Data}
-            type="area"
-            height={200}
+          {/* <LineChart
+            series={[
+              {
+                data: chart3Data,
+                area: true,
+              },
+            ]}
+            xAxis={[{ data: chartLabel, scaleType: 'point' }]}
+            height={250}
           /> */}
         </Card>
       </Grid>

@@ -3,7 +3,7 @@ import React, {useState, useEffect, useCallback, useRef} from "react";
 import { useSession } from "next-auth/react"
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box';
@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -165,6 +166,7 @@ export default function Index() {
           headerName: 'Action',
           sortable: false,
           filterable: false,
+          display: 'flex',
           width: 140,
           renderCell: (params:any) => {
             params.page = paginationModel.page
@@ -194,6 +196,51 @@ export default function Index() {
           }
         },
     ];
+
+    const columnsMobile: GridColDef<(typeof permissions)[number]>[] = [
+        { field: 'name', headerName: 'Select All', flex: 1, minWidth: 150, display: 'flex', 
+          renderCell: (params:any) => {
+            return (<Grid container justifyContent="space-between" alignItems="center">
+                        <Grid item>
+                            <Typography variant="h5">
+                                { params.row.name }
+                            </Typography>
+                            <Divider />
+                            <Typography variant="subtitle2">
+                                { params.row.description }
+                            </Typography>
+                            <Divider />
+                            <IconButton 
+                                aria-label="Edit"
+                                onClick={() => {
+                                    handleModalEdit(params)
+                                }} 
+                                color="info"
+                            >
+                                <EditRoundedIcon/>
+                            </IconButton>
+                            <IconButton 
+                                aria-label="Delete"
+                                onClick={() => {
+                                    handleModalDelete(params)
+                                }} 
+                                color="error"
+                            >
+                                <DeleteIcon/>
+                            </IconButton>
+                        </Grid>
+                    </Grid>);
+          }
+        }
+    ];
+
+    function ExportToolbar() {
+        return (
+          <GridToolbarContainer>
+            <GridToolbarExport />
+          </GridToolbarContainer>
+        );
+    }      
 
     let ModalElement =  <></>
     if (createMode) {
@@ -264,36 +311,75 @@ export default function Index() {
                 </Grid>
             </PageTitleWrapper>
             <Container maxWidth="lg">
-                <Grid item xs={12} sx={{height: 600, width: '100%'}}>
-                <DataGrid
-                    rows={permissions}
-                    pageSizeOptions={[20, 50, 100]}
-                    columns={columns}
-                    rowCount={rowCount}
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={handlePaginationModelChange}
-                    sortModel={sortModel}
-                    onSortModelChange={handleSortModelChange}
-                    onFilterModelChange={onFilterChange}
-                    checkboxSelection
-                    paginationMode="server"
-                    sortingMode="server"
-                    filterMode="server"
-                    loading={loading}
-                    getRowHeight={() => 'auto'}
-                    onRowSelectionModelChange={(Ids: any) => {
-                        setSelectedIds(Ids)
-                    }}
-                    slotProps={{
-                        filterPanel: {
-                        sx: {
-                            "& .MuiDataGrid-filterForm": { 
-                                display: { xs: "block", sm: "inherit" },
-                            },
-                        }
-                        }
-                    }}
-                />
+                <Grid item xs={12} sx={{height: 600, width: '100%', display: { xs: 'none', lg: 'block'  }}}>
+                    <DataGrid
+                        rows={permissions}
+                        pageSizeOptions={[20, 50, 100]}
+                        columns={columns}
+                        rowCount={rowCount}
+                        paginationModel={paginationModel}
+                        onPaginationModelChange={handlePaginationModelChange}
+                        sortModel={sortModel}
+                        onSortModelChange={handleSortModelChange}
+                        onFilterModelChange={onFilterChange}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                        paginationMode="server"
+                        sortingMode="server"
+                        filterMode="server"
+                        loading={loading}
+                        getRowHeight={() => 'auto'}
+                        onRowSelectionModelChange={(Ids: any) => {
+                            setSelectedIds(Ids)
+                        }}
+                        slotProps={{
+                            filterPanel: {
+                                sx: {
+                                    "& .MuiDataGrid-filterForm": { 
+                                        display: { xs: "block", sm: "inherit" },
+                                    },
+                                }
+                            }
+                        }}
+                        slots={{
+                            toolbar: ExportToolbar,
+                        }}          
+                    />
+                </Grid>
+                <Grid item xs={12} sx={{height: 600, width: '100%', display: { md: 'block', lg: 'none' }}}>
+                    <DataGrid
+                        rows={permissions}
+                        pageSizeOptions={[20, 50, 100]}
+                        columns={columnsMobile}
+                        rowCount={rowCount}
+                        paginationModel={paginationModel}
+                        onPaginationModelChange={handlePaginationModelChange}
+                        sortModel={sortModel}
+                        onSortModelChange={handleSortModelChange}
+                        onFilterModelChange={onFilterChange}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                        paginationMode="server"
+                        sortingMode="server"
+                        filterMode="server"
+                        loading={loading}
+                        getRowHeight={() => 'auto'}
+                        onRowSelectionModelChange={(Ids: any) => {
+                            setSelectedIds(Ids)
+                        }}
+                        slotProps={{
+                            filterPanel: {
+                                sx: {
+                                    "& .MuiDataGrid-filterForm": { 
+                                        display: { xs: "block", sm: "inherit" },
+                                    },
+                                }
+                            }
+                        }}
+                        slots={{
+                            toolbar: ExportToolbar,
+                        }}
+                    />
                 </Grid>
                 {ModalElement}
             </Container>

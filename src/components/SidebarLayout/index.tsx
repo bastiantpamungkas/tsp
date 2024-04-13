@@ -1,7 +1,19 @@
 "use client"
-import { FC, ReactNode, useContext } from 'react';
-import { alpha, lighten, useTheme } from '@mui/material/styles';
+import { FC, ReactNode, useState, useContext } from 'react';
+import { alpha, lighten, useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+
+import Paper from '@mui/material/Paper';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ShareIcon from '@mui/icons-material/Share';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -11,6 +23,12 @@ import { ThemeContext } from '@/src/theme/ThemeProvider'
 export default function SidebarLayout({ children }: React.PropsWithChildren) {
   const { rtl } = useContext(ThemeContext);
   const theme = useTheme();
+  const [valueNavigation, setValueNavigation] = useState('');
+
+  const handleNavigation = (newValue: string) => {
+    setValueNavigation(newValue);
+    // put code for bottom navigation
+  }
 
   return (
     <>
@@ -47,6 +65,7 @@ export default function SidebarLayout({ children }: React.PropsWithChildren) {
           sx={{
             position: 'relative',
             zIndex: 5,
+            pb: { xs: 5, sm: 5, md: 0 },
             display: 'block',
             flex: 1,
             pt: `${theme.header.height}`,
@@ -60,6 +79,51 @@ export default function SidebarLayout({ children }: React.PropsWithChildren) {
           <Box display="block" sx={{ minHeight: '700px' }}>{children}</Box>
           <Footer />
         </Box>
+
+        <Box sx={{ display: { xs: 'none', lg: 'block'  } }}>
+          <SpeedDial
+            ariaLabel="SpeedDial"
+            icon={<SpeedDialIcon />}
+            direction="up"
+            sx={{ position: "fixed", bottom: { xs: theme.spacing(8), lg: theme.spacing(2) }, [(rtl) ? 'left' : 'right']: theme.spacing(2) }}
+          >
+            <SpeedDialAction
+              key="Recents"
+              icon={<RestoreIcon />}
+              tooltipTitle="Recents"
+            />
+            <SpeedDialAction
+              key="Favorites"
+              icon={<FavoriteIcon />}
+              tooltipTitle="Favorites"
+            />
+            <SpeedDialAction
+              key="Share"
+              icon={<ShareIcon />}
+              tooltipTitle="Share"
+            />
+            <SpeedDialAction
+              key="Nearby"
+              icon={<LocationOnIcon />}
+              tooltipTitle="Nearby"
+            />
+          </SpeedDial>
+        </Box>
+
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 6, display: { md: 'block', lg: 'none'  } }} elevation={3}>
+          <BottomNavigation
+            showLabels
+            value={valueNavigation}
+            onChange={(event, newValue) => {
+              handleNavigation(newValue)
+            }}
+          >
+            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} value="recents" />
+            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} value="favorites" />
+            <BottomNavigationAction label="Share" icon={<ShareIcon />} value="share" />
+            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} value="nearby" />
+          </BottomNavigation>
+        </Paper>
       </Box>
     </>
   );

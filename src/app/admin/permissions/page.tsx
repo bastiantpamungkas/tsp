@@ -198,7 +198,7 @@ export default function Index() {
     ];
 
     const columnsMobile: GridColDef<(typeof permissions)[number]>[] = [
-        { field: 'name', headerName: 'Select All', flex: 1, minWidth: 150, display: 'flex', 
+        { field: 'name', headerName: 'Name', flex: 1, minWidth: 150, display: 'flex', 
           renderCell: (params:any) => {
             return (<Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>

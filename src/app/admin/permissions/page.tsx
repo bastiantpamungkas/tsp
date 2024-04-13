@@ -5,6 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
@@ -36,6 +37,7 @@ export default function Index() {
     const [openNotification, setOpenNotification] = useState(false);
     const [messageNotification, setMessageNotification] = useState('');
     const [colorNotification, setColorNotification] = useState<AlertColor>('success');
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
@@ -311,46 +313,11 @@ export default function Index() {
                 </Grid>
             </PageTitleWrapper>
             <Container maxWidth="lg">
-                <Grid item xs={12} sx={{height: 600, width: '100%', display: { xs: 'none', lg: 'block'  }}}>
+                <Grid item xs={12} sx={{height: 600, width: '100%'}}>
                     <DataGrid
                         rows={permissions}
                         pageSizeOptions={[20, 50, 100]}
-                        columns={columns}
-                        rowCount={rowCount}
-                        paginationModel={paginationModel}
-                        onPaginationModelChange={handlePaginationModelChange}
-                        sortModel={sortModel}
-                        onSortModelChange={handleSortModelChange}
-                        onFilterModelChange={onFilterChange}
-                        checkboxSelection
-                        disableRowSelectionOnClick
-                        paginationMode="server"
-                        sortingMode="server"
-                        filterMode="server"
-                        loading={loading}
-                        getRowHeight={() => 'auto'}
-                        onRowSelectionModelChange={(Ids: any) => {
-                            setSelectedIds(Ids)
-                        }}
-                        slotProps={{
-                            filterPanel: {
-                                sx: {
-                                    "& .MuiDataGrid-filterForm": { 
-                                        display: { xs: "block", sm: "inherit" },
-                                    },
-                                }
-                            }
-                        }}
-                        slots={{
-                            toolbar: ExportToolbar,
-                        }}          
-                    />
-                </Grid>
-                <Grid item xs={12} sx={{height: 600, width: '100%', display: { md: 'block', lg: 'none' }}}>
-                    <DataGrid
-                        rows={permissions}
-                        pageSizeOptions={[20, 50, 100]}
-                        columns={columnsMobile}
+                        columns={(isMobile) ? columnsMobile : columns}
                         rowCount={rowCount}
                         paginationModel={paginationModel}
                         onPaginationModelChange={handlePaginationModelChange}

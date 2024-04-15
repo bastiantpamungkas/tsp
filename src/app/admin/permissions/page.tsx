@@ -8,8 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Dialog from '@mui/material/Dialog'
 import Box from '@mui/material/Box';
-import Snackbar from '@mui/material/Snackbar';
-import Alert, { AlertColor } from '@mui/material/Alert';
+import { AlertColor } from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -21,6 +20,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PageTitleWrapper from '@/src/components/PageTitleWrapper';
+import SnackBarWrapper from '@/src/components/SnackBarWrapper';
 import querystring from 'query-string'
 import Create from './create'
 import Edit from './edit'
@@ -264,18 +264,12 @@ export default function Index() {
                 open={openNotification}
                 onClose={() => setOpenNotification(false)}
             >
-                <Snackbar
-                    anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
-                    open={openNotification}
-                    autoHideDuration={6000}
-                    onClose={() => setOpenNotification(false)}
-                >
-                    <Alert onClose={() => setOpenNotification(false)} severity={colorNotification}>
-                    <Typography sx={{ whiteSpace: "pre-wrap", mx: 2 }}>
-                        {messageNotification}
-                    </Typography>
-                    </Alert>
-                </Snackbar>
+                <SnackBarWrapper 
+                    message={messageNotification} 
+                    messageType="colorNotification" 
+                    openNotification={openNotification} 
+                    closeNotification={() => {setOpenNotification(false)}} 
+                />
             </Dialog>
             <PageTitleWrapper>
                 <Grid container justifyContent="space-between" alignItems="center">

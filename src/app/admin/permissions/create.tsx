@@ -1,23 +1,20 @@
 "use client"
 import {useState, useEffect} from "react";
 import PropTypes from 'prop-types'
-import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import Grid from '@mui/material/Grid'
-import Snackbar from '@mui/material/Snackbar'
-import Alert, { AlertColor } from '@mui/material/Alert';
+import { AlertColor } from '@mui/material/Alert';
 import Skeleton from '@mui/material/Skeleton'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import DialogTitle from '@mui/material/DialogTitle'
-import Typography from '@mui/material/Typography'
+import SnackBarWrapper from '@/src/components/SnackBarWrapper';
 
 export default function Create(props:any) {
-    const theme = useTheme();
     const [loading, setLoading] = useState(false)
     const [openNotification, setOpenNotification] = useState(false);
     const [messageNotification, setMessageNotification] = useState('');
@@ -79,18 +76,12 @@ export default function Create(props:any) {
             open={props.open}
             onClose={props.onModalClose}
         >
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
-                open={openNotification}
-                autoHideDuration={6000}
-                onClose={() => setOpenNotification(false)}
-            >
-                <Alert onClose={() => setOpenNotification(false)} severity={colorNotification}>
-                <Typography sx={{ whiteSpace: "pre-wrap", mx: 2 }}>
-                    {messageNotification}
-                </Typography>
-                </Alert>
-            </Snackbar>
+            <SnackBarWrapper 
+                message={messageNotification} 
+                messageType="colorNotification" 
+                openNotification={openNotification} 
+                closeNotification={() => {setOpenNotification(false)}} 
+            />
             <DialogTitle>
               <Grid container spacing={2}>
                 <Grid item xs={10} sm={11}>

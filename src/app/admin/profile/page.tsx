@@ -13,16 +13,16 @@ import Skeleton from '@mui/material/Skeleton'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Container from '@mui/material/Container';
+import Snackbar from '@mui/material/Snackbar'
 import Card from '@mui/material/Card'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
-import { AlertColor } from '@mui/material/Alert';
+import Alert, { AlertColor } from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { SidebarContext } from '@/src/contexts/SidebarContext';
 import PageTitleWrapper from '@/src/components/PageTitleWrapper';
-import SnackBarWrapper from '@/src/components/SnackBarWrapper';
 import Delete from './delete'
 
 const Input = styled('input')({
@@ -70,6 +70,7 @@ const ButtonUploadWrapper = styled(Box)(
 );
 
 export default function Index() {
+    const theme = useTheme();
     const { userData } = useContext(SidebarContext);
     const { data: session, update } = useSession()
     const router = useRouter()
@@ -233,12 +234,18 @@ export default function Index() {
                 open={openNotification}
                 onClose={() => setOpenNotification(false)}
             >
-                <SnackBarWrapper 
-                    message={messageNotification} 
-                    messageType="colorNotification" 
-                    openNotification={openNotification} 
-                    closeNotification={() => {setOpenNotification(false)}} 
-                />
+                <Snackbar
+                    anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
+                    open={openNotification}
+                    autoHideDuration={6000}
+                    onClose={() => setOpenNotification(false)}
+                >
+                    <Alert onClose={() => setOpenNotification(false)} severity={colorNotification}>
+                    <Typography sx={{ whiteSpace: "pre-wrap", mx: 2 }}>
+                        {messageNotification}
+                    </Typography>
+                    </Alert>
+                </Snackbar>
             </Dialog>
             <PageTitleWrapper>
                 <Grid container alignItems="center">

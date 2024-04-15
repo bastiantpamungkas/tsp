@@ -5,20 +5,23 @@ import { signOut } from "next-auth/react"
 import { useRouter } from 'next-nprogress-bar';
 import PropTypes from 'prop-types'
 import querystring from 'query-string'
+import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from "@mui/material/DialogContentText";
 import Grid from '@mui/material/Grid'
-import { AlertColor } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar'
+import Alert, { AlertColor } from '@mui/material/Alert';
 import Skeleton from '@mui/material/Skeleton'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import DialogTitle from '@mui/material/DialogTitle'
-import SnackBarWrapper from '@/src/components/SnackBarWrapper';
+import Typography from '@mui/material/Typography'
 
 export default function Delete(props:any) {
+    const theme = useTheme();
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [openNotification, setOpenNotification] = useState(false);
@@ -82,12 +85,18 @@ export default function Delete(props:any) {
             open={props.open}
             onClose={props.onModalClose}
         >
-            <SnackBarWrapper 
-                message={messageNotification} 
-                messageType="colorNotification" 
-                openNotification={openNotification} 
-                closeNotification={() => {setOpenNotification(false)}} 
-            />
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: theme.direction === 'rtl' ? 'left' : 'right' }}
+                open={openNotification}
+                autoHideDuration={6000}
+                onClose={() => setOpenNotification(false)}
+            >
+                <Alert onClose={() => setOpenNotification(false)} severity={colorNotification}>
+                <Typography sx={{ whiteSpace: "pre-wrap", mx: 2 }}>
+                    {messageNotification}
+                </Typography>
+                </Alert>
+            </Snackbar>
             <DialogTitle>
               <Grid container spacing={2}>
                 <Grid item xs={10} sm={11}>

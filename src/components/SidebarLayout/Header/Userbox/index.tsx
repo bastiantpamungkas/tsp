@@ -1,6 +1,7 @@
 import { useRef, useState, useContext, useEffect } from 'react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import { signOut } from "next-auth/react"
 import querystring from 'query-string'
 import Box from '@mui/material/Box';

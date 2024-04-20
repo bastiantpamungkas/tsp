@@ -272,7 +272,7 @@ export const config = {
       }
       return token
     },
-    async session({ session, user, token }) { 
+    session({ session, user, token }) { 
       if (token && token.sub) {
           session.user.id = token.sub
       }

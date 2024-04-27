@@ -142,7 +142,7 @@ export const POST = auth(async (req) => {
         let from = (process.env.MAIL_FROM_ADDRESS) ? '"info ' + process.env.MAIL_FROM_NAME + '" ' + '<' + process.env.MAIL_FROM_ADDRESS + '>' : '' // sender address
         let to = data.email // list of receivers
         let subject = "Verify Email Address" // Subject line
-        let html = template_email(user, process.env.NEXTAUTH_URL + '/auth/verify/' + hashed_email_verify) // html body
+        let html = template_email(user, process.env.AUTH_URL + '/auth/verify/' + hashed_email_verify) // html body
         
         let transporter = nodemailer.createTransport({
             service: 'gmail',

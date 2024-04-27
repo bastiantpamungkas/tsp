@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
         return Response.json({ error: "Please select agree terms & condition to continues" }, { status: 400 })
     }
 
-    const parsedUrl = parseUrl(process.env.NEXTAUTH_URL) as any;
+    const parsedUrl = parseUrl(process.env.AUTH_URL) as any;
     const baseUrl = parsedUrl.base;
     const useSecureCookies = baseUrl.startsWith('https://')
     const csrfProp = `${useSecureCookies ? '__Host-' : ''}authjs.csrf-token`;

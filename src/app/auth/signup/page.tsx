@@ -82,6 +82,7 @@ export default function Index() {
       } else {
         setNotification(return_data.message,'success')
         setValues({ ...values, name: '', password: '', password_confirm: '', email: '', terms: false})
+        router.push('/auth/verify-request')
       }
     } catch(err) {
       setNotification(String(err),'error')

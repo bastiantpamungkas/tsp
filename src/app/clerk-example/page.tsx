@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useSession } from "next-auth/react"
 import NextLink from 'next/link';
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField'
@@ -45,6 +45,13 @@ export default function Index() {
               </strong>{" "}
               to provide the session data.
             </p>
+
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
 
             {status === "loading" ? (
               <div>Loading...</div>

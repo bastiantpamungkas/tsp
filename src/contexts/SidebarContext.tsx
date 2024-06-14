@@ -1,5 +1,6 @@
 "use client"
 import { useState, ReactNode, useEffect, createContext } from 'react';
+import type UserTypes from '@/next-user';
 import { useSession } from "next-auth/react"
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
@@ -7,8 +8,8 @@ type SidebarContext = {
   sidebarToggle: any;
   toggleSidebar: () => void;
   closeSidebar: () => void;
-  userData: any;
-  setUserData: ({} : any) => void;
+  userData: UserTypes.IUser;
+  setUserData: ({} : UserTypes.IUser) => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -29,6 +30,7 @@ export function SidebarProvider({ children }: Props) {
     name: '',
     email: '',
     image: '',
+    user_role: [] as UserTypes.IRole[],
   });
 
   const toggleSidebar = () => {
@@ -39,8 +41,8 @@ export function SidebarProvider({ children }: Props) {
     setSidebarToggle(false);
   };
 
-  const setUserData = (user: any) => {
-    _setUserData({...userData, id: user.id, name: user.name, email: user.email, image: user.image})
+  const setUserData = (user: UserTypes.IUser) => {
+    _setUserData({...userData, id: user.id, name: user.name, email: user.email, image: user.image, user_role: user.user_role })
   };
 
   const loadData = async () => {
@@ -57,12 +59,12 @@ export function SidebarProvider({ children }: Props) {
         })
         const data = await response.json()
         if (data && data.error) {
-          _setUserData({...userData, id: '', name: '', email: '', image: ''})
+          _setUserData({...userData, id: '', name: '', email: '', image: '', user_role: []})
         } else {
-          _setUserData({...userData, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image})
+          _setUserData({...userData, id: data.profile.id, name: data.profile.name, email: data.profile.email, image: data.profile.image, user_role: data.profile.user_role})
         }
       } else {
-        _setUserData({...userData, id: '', name: '', email: '', image: ''})
+        _setUserData({...userData, id: '', name: '', email: '', image: '', user_role: []})
       }
     } catch(err) {
       console.log(err)

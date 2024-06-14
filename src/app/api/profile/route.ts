@@ -19,6 +19,28 @@ export const GET = auth(async (req) => {
                   userId: true
                 }
               },
+              user_role: {
+                select: {
+                    role: {
+                        select: {
+                            id: true,
+                            name: true,
+                            description: true,
+                            role_permission: {
+                              select: {
+                                  permission: {
+                                      select: {
+                                          id: true,
+                                          name: true,
+                                          description: true
+                                      }
+                                  }
+                              }
+                            }
+                        }
+                    }
+                }
+              }
           },      
           where: {
             id: req.auth.user.id,
@@ -27,7 +49,7 @@ export const GET = auth(async (req) => {
   
       if (profile) {
         const account = (profile?.accounts && profile?.accounts.length) ? profile.accounts : []
-        profile = { id: profile.id, name: profile.name, email: profile.email, image: profile.image } as any
+        profile = { id: profile.id, name: profile.name, email: profile.email, image: profile.image, user_role: profile.user_role } as any
         return Response.json({ profile : profile, account: (account && account.length) ? true : false })
       } else {
         return Response.json({ error: "Profile not found" }, { status: 400 })

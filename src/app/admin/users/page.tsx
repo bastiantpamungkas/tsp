@@ -1,6 +1,8 @@
 "use client"
-import React, {useState, useEffect, useCallback, useRef} from "react";
+import React, {useState, useEffect, useCallback, useRef, useContext} from "react";
 import { useSession } from "next-auth/react"
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DataGrid, GridColDef, GridFilterModel, GridPaginationModel, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
@@ -22,6 +24,8 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PageTitleWrapper from '@/src/components/PageTitleWrapper';
+import { SidebarContext } from '@/src/contexts/SidebarContext';
+import checkPermission from '@/src/lib/client_authorize'
 import querystring from 'query-string'
 import Create from './create'
 import Edit from './edit'
@@ -31,6 +35,8 @@ import DeleteBulk from './delete-bulk'
 
 export default function Index() {
     const theme = useTheme();
+    const router = useRouter()
+    const { userData } = useContext(SidebarContext);
     const { data: session } = useSession()
     const [loading, setLoading] = useState(false)
     const [users, setUsers] = useState([])
@@ -158,7 +164,11 @@ export default function Index() {
     }
 
     useEffect(() => {
-        reloadData(paginationModel.page, paginationModel.pageSize, sortModel, filterValue)
+        if (checkPermission(userData, 'users')) {
+            reloadData(paginationModel.page, paginationModel.pageSize, sortModel, filterValue)
+        } else {
+            router.push('/admin/dashboard')
+        }
     }, [session])
 
     const columns: GridColDef<(typeof users)[number]>[] = [

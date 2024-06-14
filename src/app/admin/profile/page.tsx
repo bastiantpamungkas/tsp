@@ -22,6 +22,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { SidebarContext } from '@/src/contexts/SidebarContext';
+import checkPermission from '@/src/lib/client_authorize'
 import PageTitleWrapper from '@/src/components/PageTitleWrapper';
 import Delete from './delete'
 
@@ -220,7 +221,11 @@ export default function Index() {
     }
 
     useEffect(() => {
-      loadData
+      if (checkPermission(userData, 'profile')) {
+        loadData
+      } else {
+        router.push('/admin/dashboard')
+      }
     }, [])
 
     useEffect(() => {

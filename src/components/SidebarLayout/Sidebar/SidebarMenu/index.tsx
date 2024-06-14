@@ -9,6 +9,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import NextLink from 'next/link';
 import { SidebarContext } from '@/src/contexts/SidebarContext';
+import checkPermission from '@/src/lib/client_authorize'
 
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
@@ -165,7 +166,7 @@ const NextLinkWrapper = styled(NextLink)(
 );
 
 function SidebarMenu() {
-  const { closeSidebar } = useContext(SidebarContext);
+  const { userData, closeSidebar } = useContext(SidebarContext);
   const currentRoute = usePathname();
 
   return (
@@ -192,6 +193,7 @@ function SidebarMenu() {
         </List>
         <List
           component="div"
+          sx={{ display: (checkPermission(userData, 'permissions') || checkPermission(userData, 'roles') || checkPermission(userData, 'users')) ? undefined : "none" }}
           subheader={
             <ListSubheader component="div" disableSticky>
               ACCOUNTS
@@ -200,7 +202,7 @@ function SidebarMenu() {
         >
           <SubMenuWrapper>
             <List component="div">
-              <ListItem component="div">
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'permissions') ? undefined : "none" }}>
                 <NextLinkWrapper href="/admin/permissions" passHref>
                   <Button
                     className={
@@ -215,7 +217,7 @@ function SidebarMenu() {
                   </Button>
                 </NextLinkWrapper>
               </ListItem>
-              <ListItem component="div">
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'roles') ? undefined : "none" }}>
                 <NextLinkWrapper href="/admin/roles" passHref>
                   <Button
                     className={
@@ -230,7 +232,7 @@ function SidebarMenu() {
                   </Button>
                 </NextLinkWrapper>
               </ListItem>
-              <ListItem component="div">
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'users') ? undefined : "none" }}>
                 <NextLinkWrapper href="/admin/users" passHref>
                   <Button
                     className={

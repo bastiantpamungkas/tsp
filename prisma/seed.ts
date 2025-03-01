@@ -1,5 +1,5 @@
 import moment from 'moment'
-import prisma from '@/src/lib/prismaClient'
+import prisma from '../src/lib/prismaClient'
 
 async function main() {
     let permission = await prisma.permission.findFirst({

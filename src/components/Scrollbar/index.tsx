@@ -40,7 +40,7 @@ const Scrollbar: FC<ScrollbarProps> = ({ className, children, ...rest }) => {
 };
 
 Scrollbar.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.element,
   className: PropTypes.string
 };
 

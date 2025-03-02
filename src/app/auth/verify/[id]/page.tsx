@@ -11,7 +11,7 @@ import AppAppBar from '@/src/components/AppAppBar';
 import Footer from '@/src/components/Footer';
 import prisma from '@/src/lib/prismaClient'
 
-export default async function Index({ params }: { params: { id: string } }) {
+export default async function Index({ params }: any) {
   const findUser = await prisma.user.findFirst({
     where: {
         hashed_email_verify: params.id,

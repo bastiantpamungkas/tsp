@@ -23,7 +23,7 @@ const PageTitleWrapper: FC<PageTitleWrapperProps> = ({ children }) => {
 };
 
 PageTitleWrapper.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.element.isRequired
 };
 
 export default PageTitleWrapper;

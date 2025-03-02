@@ -6,9 +6,7 @@ import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
 
 interface QueryParams {
-  params: {
-    id: string
-  }
+  params: any
 }
 
 export const GET = async (req: NextRequest, query: QueryParams) => {

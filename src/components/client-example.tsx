@@ -10,7 +10,7 @@ import CustomLink from "./custom-link"
 
 const UpdateForm = () => {
   const { data: session, update } = useSession()
-  const [name, setName] = useState(`New ${session?.user?.name}` ?? "")
+  const [name, setName] = useState((session && session.user) ? `New ${session.user.name}` : "")
 
   if (!session?.user) return null
   return (

@@ -4,6 +4,8 @@ import { auth } from "@/src/auth"
 import moment from 'moment'
 import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
+import Ajv from "ajv"
+import addFormats from "ajv-formats"
 
 interface QueryParams {
   params: any
@@ -65,6 +67,23 @@ export const PUT = async (req: NextRequest, query: QueryParams) => {
                   user_id : user.id,
               },
             })
+
+            const schema = {
+              properties: {
+                name: {type: "string"},
+                email: {type: "string", format: "email"}
+              },
+              required: ["name", "email"],
+            }
+            const ajv = new Ajv()
+            addFormats(ajv)
+            const validate = ajv.compile(schema)
+            const dataToValidate = data
+            const valid = validate(dataToValidate)
+            if (!valid) {
+              return Response.json({ error: (validate.errors && validate.errors.length) ? validate.errors[0].message : 'Validation Error' }, { status: 400 })
+            }
+
             user = await prisma.user.update({
                 where: {
                     id: query.params.id,

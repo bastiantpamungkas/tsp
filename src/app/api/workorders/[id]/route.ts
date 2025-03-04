@@ -4,6 +4,8 @@ import { auth } from "@/src/auth"
 import moment from 'moment'
 import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
+import Ajv from "ajv"
+import addFormats from "ajv-formats"
 
 interface QueryParams {
   params: any
@@ -101,6 +103,27 @@ export const PUT = async (req: NextRequest, query: QueryParams) => {
             let data = await req.json();
             data.updated = moment().toDate()
             data.updated_by = session.user.id
+
+            const schema = {
+              properties: {
+                due_date: {type: "string", format: "date-time"},
+                product_id: {type: "string"},
+                description: {type: "string"},
+                qty: {type: "number"},
+                status_id: {type: "string"},
+                user_id: {type: "string"}
+              },
+              required: ["due_date", "product_id", "qty", "status_id"],
+            }
+            const ajv = new Ajv()
+            addFormats(ajv)
+            const validate = ajv.compile(schema)
+            const dataToValidate = data
+            const valid = validate(dataToValidate)
+            if (!valid) {
+              return Response.json({ error: (validate.errors && validate.errors.length) ? validate.errors[0].message : 'Validation Error' }, { status: 400 })
+            }
+
             workorder = await prisma.workorder.update({
                 where: queryWhere,
                 data: data,

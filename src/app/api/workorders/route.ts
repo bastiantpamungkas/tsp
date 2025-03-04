@@ -2,6 +2,8 @@ import { auth } from "@/src/auth"
 import moment from "moment"
 import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
+import Ajv from "ajv"
+import addFormats from "ajv-formats"
 
 export const GET = auth(async (req) => {
   const isAuthorized = await checkPermission(req.auth, 'workorders')
@@ -153,6 +155,27 @@ export const POST = auth(async (req) => {
         let data = await req.json();
         data.created = moment().toDate()
         data.created_by = req.auth.user.id
+
+        const schema = {
+          properties: {
+            due_date: {type: "string", format: "date-time"},
+            product_id: {type: "string"},
+            description: {type: "string"},
+            qty: {type: "number"},
+            status_id: {type: "string"},
+            user_id: {type: "string"}
+          },
+          required: ["due_date", "product_id", "qty", "status_id", "user_id"],
+        }
+        const ajv = new Ajv()
+        addFormats(ajv)
+        const validate = ajv.compile(schema)
+        const dataToValidate = data
+        const valid = validate(dataToValidate)
+        if (!valid) {
+          return Response.json({ error: (validate.errors && validate.errors.length) ? validate.errors[0].message : 'Validation Error' }, { status: 400 })
+        }
+
         const workorder = await prisma.workorder.create({
           data: data,
         })

@@ -4,6 +4,7 @@ import { auth } from "@/src/auth"
 import moment from 'moment'
 import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
+import Ajv from "ajv"
 
 interface QueryParams {
   params: any
@@ -59,6 +60,22 @@ export const PUT = async (req: NextRequest, query: QueryParams) => {
         });
         if (role) {
             let data = await req.json();
+
+            const schema = {
+              properties: {
+                name: {type: "string"},
+                description: {type: "string"}
+              },
+              required: ["name"],
+            }
+            const ajv = new Ajv()
+            const validate = ajv.compile(schema)
+            const dataToValidate = data
+            const valid = validate(dataToValidate)
+            if (!valid) {
+              return Response.json({ error: (validate.errors && validate.errors.length) ? validate.errors[0].message : 'Validation Error' }, { status: 400 })
+            }
+
             await prisma.role_Permission.deleteMany({
                 where: {
                     role_id : role.id,

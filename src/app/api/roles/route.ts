@@ -2,6 +2,7 @@ import { auth } from "@/src/auth"
 import moment from "moment"
 import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
+import Ajv from "ajv"
 
 export const GET = auth(async (req) => {
   const isAuthorized = await checkPermission(req.auth, 'roles')
@@ -90,6 +91,22 @@ export const POST = auth(async (req) => {
   if (req.auth && isAuthorized) {
     try {
         let data = await req.json();
+
+        const schema = {
+          properties: {
+            name: {type: "string"},
+            description: {type: "string"}
+          },
+          required: ["name"],
+        }
+        const ajv = new Ajv()
+        const validate = ajv.compile(schema)
+        const dataToValidate = data
+        const valid = validate(dataToValidate)
+        if (!valid) {
+          return Response.json({ error: (validate.errors && validate.errors.length) ? validate.errors[0].message : 'Validation Error' }, { status: 400 })
+        }
+
         const role = await prisma.role.create({
           data: { 
             name: data.name, 

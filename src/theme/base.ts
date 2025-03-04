@@ -1,11 +1,7 @@
 import React from 'react';
 import { Theme } from '@mui/material/styles';
 import { PureLightTheme } from './schemes/PureLightTheme';
-import { GreyGooseTheme } from './schemes/GreyGooseTheme';
-import { PurpleFlowTheme } from './schemes/PurpleFlowTheme';
-import { DarkSpacesTheme } from './schemes/DarkSpacesTheme';
 import { GreenFieldsTheme } from './schemes/GreenFieldsTheme';
-import { NebulaFighterTheme } from './schemes/NebulaFighterTheme';
 
 export function themeCreator(theme: string, rtl: boolean): Theme {
   let selectedTheme = themeMap[theme];
@@ -256,9 +252,5 @@ declare module '@mui/material/styles' {
 
 const themeMap: { [key: string]: Theme } = {
   PureLightTheme,
-  GreyGooseTheme,
-  PurpleFlowTheme,
-  DarkSpacesTheme,
-  GreenFieldsTheme,
-  NebulaFighterTheme
+  GreenFieldsTheme
 };

@@ -1,6 +1,12 @@
 {
   "private": true,
-  "description": "An example project for NextAuth.js with Next.js",
+  "description": "TSP Work Order Management System",
+  "name": "tsp-woms",
+  "version": "1.0.0",
+  "license": "buzztian",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "repository": "https://github.com/nextauthjs/next-auth-example.git",
   "bugs": {
     "url": "https://github.com/nextauthjs/next-auth/issues"
@@ -68,6 +74,8 @@
     "react-animation-on-scroll": "^5.1.0",
     "react-custom-scrollbars-2": "^4.5.0",
     "react-dom": "^18.2.0",
+    "react-qr-code": "^2.0.15",
+    "react-to-print": "^3.0.5",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },

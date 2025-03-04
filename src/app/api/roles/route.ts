@@ -28,11 +28,11 @@ export const GET = auth(async (req) => {
               if (req.nextUrl.searchParams.get('searchoperator') == 'equals' || req.nextUrl.searchParams.get('searchoperator') == 'is' || req.nextUrl.searchParams.get('searchoperator') == '=') {
                   queryWhere[searchcolumn] = req.nextUrl.searchParams.get('searchkey')
               } else if (req.nextUrl.searchParams.get('searchoperator') == 'startsWith') {
-                  queryWhere[searchcolumn] = { startsWith: req.nextUrl.searchParams.get('searchkey') }
+                  queryWhere[searchcolumn] = { startsWith: req.nextUrl.searchParams.get('searchkey'), mode: 'insensitive' }
               } else if (req.nextUrl.searchParams.get('searchoperator') == 'endsWith') {
-                  queryWhere[searchcolumn] = { endsWith: req.nextUrl.searchParams.get('searchkey') }
+                  queryWhere[searchcolumn] = { endsWith: req.nextUrl.searchParams.get('searchkey'), mode: 'insensitive' }
               } else if (req.nextUrl.searchParams.get('searchoperator') == 'contains') {
-                  queryWhere[searchcolumn] =  { contains: req.nextUrl.searchParams.get('searchkey') }
+                  queryWhere[searchcolumn] =  { contains: req.nextUrl.searchParams.get('searchkey'), mode: 'insensitive' }
               } else if (req.nextUrl.searchParams.get('searchoperator') == 'isAnyOf') {
                 if (Array.isArray(req.nextUrl.searchParams.get('searchkey'))) {
                   queryWhere[searchcolumn] =  { in: req.nextUrl.searchParams.get('searchkey') }
@@ -72,8 +72,8 @@ export const GET = auth(async (req) => {
           }
         },
         where: queryWhere, 
-        skip: offset, 
-        take: limit, 
+        skip: (limit >= 0 ) ? offset : undefined, 
+        take: (limit >= 0 ) ? limit : undefined, 
         orderBy: [sort]
       })
       return Response.json({ count: total, rows: roles })

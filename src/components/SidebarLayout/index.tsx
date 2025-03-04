@@ -79,51 +79,6 @@ export default function SidebarLayout({ children }: React.PropsWithChildren) {
           <Box display="block" sx={{ minHeight: '700px' }}>{children}</Box>
           <Footer />
         </Box>
-
-        <Box sx={{ display: { xs: 'none', lg: 'block'  } }}>
-          <SpeedDial
-            ariaLabel="SpeedDial"
-            icon={<SpeedDialIcon />}
-            direction="up"
-            sx={{ position: "fixed", bottom: { xs: theme.spacing(8), lg: theme.spacing(2) }, [(rtl) ? 'left' : 'right']: theme.spacing(2) }}
-          >
-            <SpeedDialAction
-              key="Recents"
-              icon={<RestoreIcon />}
-              tooltipTitle="Recents"
-            />
-            <SpeedDialAction
-              key="Favorites"
-              icon={<FavoriteIcon />}
-              tooltipTitle="Favorites"
-            />
-            <SpeedDialAction
-              key="Share"
-              icon={<ShareIcon />}
-              tooltipTitle="Share"
-            />
-            <SpeedDialAction
-              key="Nearby"
-              icon={<LocationOnIcon />}
-              tooltipTitle="Nearby"
-            />
-          </SpeedDial>
-        </Box>
-
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 6, display: { md: 'block', lg: 'none'  } }} elevation={3}>
-          <BottomNavigation
-            showLabels
-            value={valueNavigation}
-            onChange={(event, newValue) => {
-              handleNavigation(newValue)
-            }}
-          >
-            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} value="recents" />
-            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} value="favorites" />
-            <BottomNavigationAction label="Share" icon={<ShareIcon />} value="share" />
-            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} value="nearby" />
-          </BottomNavigation>
-        </Paper>
       </Box>
     </>
   );

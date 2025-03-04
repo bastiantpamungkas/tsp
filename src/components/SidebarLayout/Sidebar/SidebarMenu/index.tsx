@@ -15,6 +15,10 @@ import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import BuildTwoToneIcon from '@mui/icons-material/BuildTwoTone';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import PhonelinkTwoToneIcon from '@mui/icons-material/PhonelinkTwoTone';
+import PrintTwoToneIcon from '@mui/icons-material/PrintTwoTone';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -185,6 +189,80 @@ function SidebarMenu() {
                     startIcon={<DesignServicesTwoToneIcon sx={{ mx:1 }} />}
                   >
                     Dashboard
+                  </Button>
+                </NextLinkWrapper>
+              </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
+        <List
+          component="div"
+          sx={{ display: (checkPermission(userData, 'status') || checkPermission(userData, 'products') || checkPermission(userData, 'workorders') || checkPermission(userData, 'transactions')) ? undefined : "none" }}
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              WORK ORDER
+            </ListSubheader>
+          }
+        >
+          <SubMenuWrapper>
+            <List component="div">
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'status') ? undefined : "none" }}>
+                <NextLinkWrapper href="/admin/status" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/admin/status' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="span"
+                    onClick={closeSidebar}
+                    startIcon={<SwapHorizIcon sx={{ mx:1 }}/>}
+                  >
+                    Status
+                  </Button>
+                </NextLinkWrapper>
+              </ListItem>
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'products') ? undefined : "none" }}>
+                <NextLinkWrapper href="/admin/products" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/admin/products' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="span"
+                    onClick={closeSidebar}
+                    startIcon={<PhonelinkTwoToneIcon sx={{ mx:1 }}/>}
+                  >
+                    Products
+                  </Button>
+                </NextLinkWrapper>
+              </ListItem>
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'workorders') ? undefined : "none" }}>
+                <NextLinkWrapper href="/admin/workorders" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/admin/workorders' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="span"
+                    onClick={closeSidebar}
+                    startIcon={<BuildTwoToneIcon sx={{ mx:1 }}/>}
+                  >
+                    Work Order
+                  </Button>
+                </NextLinkWrapper>
+              </ListItem>
+              <ListItem component="div" sx={{ display: checkPermission(userData, 'transactions') ? undefined : "none" }}>
+                <NextLinkWrapper href="/admin/reports" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/admin/reports' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="span"
+                    onClick={closeSidebar}
+                    startIcon={<PrintTwoToneIcon sx={{ mx:1 }}/>}
+                  >
+                    Report Work Order
                   </Button>
                 </NextLinkWrapper>
               </ListItem>

@@ -4,7 +4,7 @@ import prisma from '@/src/lib/prismaClient'
 import checkPermission from '@/src/lib/authorize'
 
 export const GET = auth(async (req) => {
-  const isAuthorized = await checkPermission(req.auth, 'permissions')
+  const isAuthorized = await checkPermission(req.auth, 'products')
   if (req.auth && isAuthorized) {
     try {
       const offset = (req.nextUrl.searchParams.get('offset')) ? Number(req.nextUrl.searchParams.get('offset')) : 0
@@ -53,14 +53,14 @@ export const GET = auth(async (req) => {
           }
       }
   
-      let total = await prisma.permission.count()
-      let permissions = await prisma.permission.findMany({
+      let total = await prisma.product.count()
+      let products = await prisma.product.findMany({
         where: queryWhere, 
         skip: (limit >= 0 ) ? offset : undefined, 
         take: (limit >= 0 ) ? limit : undefined, 
         orderBy: [sort]
       })
-      return Response.json({ count: total, rows: permissions })
+      return Response.json({ count: total, rows: products })
     } catch (err: any) {
       return Response.json({ error: err.message }, { status: 400 })
     }
@@ -70,16 +70,16 @@ export const GET = auth(async (req) => {
 }) as any
 
 export const POST = auth(async (req) => {
-  const isAuthorized = await checkPermission(req.auth, 'permissionsCreate')
+  const isAuthorized = await checkPermission(req.auth, 'productsCreate')
   if (req.auth && isAuthorized) {
     try {
         let data = await req.json();
         data.created = moment().toDate()
         data.created_by = req.auth.user.id
-        const permission = await prisma.permission.create({
+        const product = await prisma.product.create({
           data: data,
         })
-        return Response.json({ message: "Successfully create permission!", permission })
+        return Response.json({ message: "Successfully create product!", product })
     } catch (err: any) {
         return Response.json({ error: err.message }, { status: 400 })
     }
@@ -89,12 +89,12 @@ export const POST = auth(async (req) => {
 }) as any
 
 export const DELETE = auth(async (req) => {
-  const isAuthorized = await checkPermission(req.auth, 'permissionsDelete')
+  const isAuthorized = await checkPermission(req.auth, 'productsDelete')
   if (req.auth && isAuthorized) {
     try {
       const data = await req.json();
       const Ids = data.Ids
-      await prisma.permission.deleteMany({
+      await prisma.product.deleteMany({
         where: {
           id: {
             in: Ids,
@@ -102,7 +102,7 @@ export const DELETE = auth(async (req) => {
         },
       })
 
-      return Response.json({ message: "Successfully delete selected permissions!" })
+      return Response.json({ message: "Successfully delete selected products!" })
     } catch (err: any) {
       return Response.json({ error: err.message }, { status: 400 })
     }

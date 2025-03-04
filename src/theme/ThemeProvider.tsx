@@ -25,8 +25,6 @@ const ThemeProviderWrapper = (props: any) => {
     setLoading(false)
   }, []);
 
-  // Light = PureLightTheme / GreyGooseTheme / PurpleFlowTheme
-  // Dark = NebulaFighterTheme / DarkSpacesTheme / GreenFieldsTheme
   const themeDark = themeCreator('GreenFieldsTheme', rtl);
   const themeLight = themeCreator('PureLightTheme', rtl);
   

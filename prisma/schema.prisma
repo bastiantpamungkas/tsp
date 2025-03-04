@@ -52,6 +52,8 @@ model User {
   accounts                      Account[]
   sessions                      Session[]
   user_role                     User_Role[]
+  workorder                     Workorder[]
+  transaction                   Transaction[]
   Permission_created_user       Permission[]        @relation("Permission_created_user")
   Permission_updated_user       Permission[]        @relation("Permission_updated_user")
   Role_created_user             Role[]              @relation("Role_created_user")
@@ -60,6 +62,14 @@ model User {
   Role_Permission_updated_user  Role_Permission[]   @relation("Role_Permission_updated_user")
   User_Role_created_user        User_Role[]         @relation("User_Role_created_user")
   User_Role_updated_user        User_Role[]         @relation("User_Role_updated_user")
+  Status_created_user           Status[]            @relation("Status_created_user")
+  Status_updated_user           Status[]            @relation("Status_updated_user")
+  Product_created_user          Product[]           @relation("Product_created_user")
+  Product_updated_user          Product[]           @relation("Product_updated_user")
+  Workorder_created_user        Workorder[]         @relation("Workorder_created_user")
+  Workorder_updated_user        Workorder[]         @relation("Workorder_updated_user")
+  Transaction_created_user      Transaction[]       @relation("Transaction_created_user")
+  Transaction_updated_user      Transaction[]       @relation("Transaction_updated_user")
 }
 
 model VerificationToken {
@@ -135,4 +145,87 @@ model User_Role {
 
   @@index([created_by], map: "User_Role_created_by")
   @@index([updated_by], map: "User_Role_updated_by")
+}
+
+model Status {
+  id                String    @id @default(cuid())
+  name              String
+  description       String?
+  created_by        String?
+  updated_by        String?
+  created           DateTime?
+  updated           DateTime?
+  created_user      User?     @relation("Status_created_user", fields: [created_by], references: [id])
+  updated_user      User?     @relation("Status_updated_user", fields: [updated_by], references: [id])
+  workorder         Workorder[]
+  transaction       Transaction[]
+
+  @@index([created_by], map: "Status_created_by")
+  @@index([updated_by], map: "Status_updated_by")
+}
+
+model Product {
+  id                String    @id @default(cuid())
+  name              String
+  description       String?
+  price             Int       @default(0)
+  created_by        String?
+  updated_by        String?
+  created           DateTime?
+  updated           DateTime?
+  created_user      User?     @relation("Product_created_user", fields: [created_by], references: [id])
+  updated_user      User?     @relation("Product_updated_user", fields: [updated_by], references: [id])
+  workorder         Workorder[]
+  transaction       Transaction[]
+
+  @@index([created_by], map: "Product_created_by")
+  @@index([updated_by], map: "Product_updated_by")
+}
+
+model Workorder {
+  id                String    @id @default(cuid())
+  product_id        String
+  description       String?
+  qty               Int
+  due_date          DateTime  @db.Date
+  status_id         String
+  user_id           String
+  created_by        String?
+  updated_by        String?
+  created           DateTime?
+  updated           DateTime?
+  product           Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  status            Status    @relation(fields: [status_id], references: [id], onDelete: Cascade)
+  user              User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  created_user      User?     @relation("Workorder_created_user", fields: [created_by], references: [id])
+  updated_user      User?     @relation("Workorder_updated_user", fields: [updated_by], references: [id])
+  transaction       Transaction[]
+
+  @@index([created_by], map: "Workorder_created_by")
+  @@index([updated_by], map: "Workorder_updated_by")
+}
+
+model Transaction {
+  id                String    @id @default(cuid())
+  transaction_date  DateTime
+  workorder_id      String
+  product_id        String
+  status_id         String
+  qty               Int
+  due_date          DateTime  @db.Date
+  user_id           String
+  description       String?
+  created_by        String?
+  updated_by        String?
+  created           DateTime?
+  updated           DateTime?
+  workorder         Workorder @relation(fields: [workorder_id], references: [id], onDelete: Cascade)
+  product           Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  status            Status    @relation(fields: [status_id], references: [id], onDelete: Cascade)
+  user              User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  created_user      User?     @relation("Transaction_created_user", fields: [created_by], references: [id])
+  updated_user      User?     @relation("Transaction_updated_user", fields: [updated_by], references: [id])
+
+  @@index([created_by], map: "Transaction_created_by")
+  @@index([updated_by], map: "Transaction_updated_by")
 }

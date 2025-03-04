@@ -98,7 +98,7 @@ function Sidebar() {
         />
         <Box p={2}>
           <Button
-            href="https://buzztian.com"
+            href="https://buzztian.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             variant="contained"
@@ -169,7 +169,7 @@ function Sidebar() {
           />
           <Box p={2}>
             <Button
-              href="https://buzztian.com"
+              href="https://buzztian.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
               variant="contained"

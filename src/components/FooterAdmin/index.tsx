@@ -33,11 +33,11 @@ function Footer() {
         >
           Crafted by{' '}
           <Link
-            href="https://buzztian.com"
+            href="https://buzztian.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
           >
-            buzztian.com
+            buzztian.vercel.app
           </Link>
         </Typography>
       </Box>

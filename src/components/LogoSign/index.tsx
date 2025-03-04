@@ -8,7 +8,6 @@ import Link from '@/src/components/Link';
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
-        background-color: ${theme.colors.alpha.trueWhite[70]};
         display: flex;
         text-decoration: none;
         width: 53px;
@@ -103,9 +102,9 @@ function Logo() {
     >
       <LogoWrapper href="/">
         <img
-          src="/static/images/logo/material-ui.svg"
+          src="/static/images/logo/logo-tsp.png"
           alt={process.env.NEXT_PUBLIC_APP_NAME}
-          width={53}
+          width={80}
         />
       </LogoWrapper>
     </TooltipWrapper>

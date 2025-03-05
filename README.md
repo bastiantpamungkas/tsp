@@ -14,23 +14,33 @@ Work Order Management System For Tri Sinar Purnama
 The deployed version can be found at [`tsp-buzztians-projects.vercel.app`](https://tsp-buzztians-projects.vercel.app/)
 
 administrator:
+
 username: buzztian_tp@yahoo.com
+
 password: password
 
 production manager:
+
 username: prod.manager1@gmail.com
+
 password: password
 
 operator1:
+
 username: operator1@gmail.com
+
 password: password
 
 operator2:
+
 username: operator2@gmail.com
+
 password: password
 
 operator3:
+
 username: operator3@gmail.com
+
 password: password
 
 ## Getting Started
